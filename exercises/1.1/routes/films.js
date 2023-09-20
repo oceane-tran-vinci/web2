@@ -22,6 +22,13 @@ const LISTEDEFILM = [
         duration: 180,
         budget: 15,
         link: 'https://www.allocine.fr/film/fichefilm_gen_cfilm=296168.html', 
+    },
+    {
+        id: 4,
+        title: 'Openheimmer',
+        duration: 180,
+        budget: 15,
+        link: 'https://www.allocine.fr/film/fichefilm_gen_cfilm=296168.html', 
     }
 ]
 
