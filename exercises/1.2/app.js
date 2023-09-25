@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 
-// add middleware
+// add middleware => !!! ce middleware doit être avant le traitement de nos routes (voir les 2 derniers routes en fin) !!!
 /*
 Exercice 1.2 : middleware s'exécutant sur toutes les routes
 Consigne : Veuillez créer un middleware qui permet d'enregistrer et 
@@ -28,7 +28,6 @@ const stats = {};
 
 // Middleware pour récupérer des informations sur les requêtes et les compter
 app.use((req, res, next) => {
-
     const currentOperation = `${req.method} ${req.path}`;// Crée une clé unique en combinant la méthode HTTP et le chemin de la requête
     const currentOperationCounter = stats[currentOperation];// Récupère le compteur actuel pour cette clé d'information
     // Si le compteur n'existe pas (undefined), initialise-le à 0
@@ -52,7 +51,6 @@ app.use((req, res, next) => {
     */
     console.log(statsMessage);// Affiche le message de statistiques dans la console
     next();// Passe au middleware suivant
-
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
