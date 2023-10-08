@@ -187,4 +187,51 @@ router.put('/:id', function (req, res) {
   });
   
 
+
+
+  
+  // Update a film only if all properties are given or create it if it does not exist and the id is not existant
+router.put('/:id', function (req, res) {
+  const title = req?.body?.title;
+  const link = req?.body?.link;
+  const duration = req?.body?.duration;
+  const budget = req?.body?.budget;
+
+  if (
+    !req.body ||
+    !title ||
+    !title.trim() ||
+    !link ||
+    !link.trim() ||
+    duration === undefined ||
+    typeof req?.body?.duration !== 'number' ||
+    duration < 0 ||
+    budget === undefined ||
+    typeof req?.body?.budget !== 'number' ||
+    budget < 0
+  )
+    return res.sendStatus(400);
+
+  const id = req.params.id;
+  const indexOfFilmFound = LISTEDEFILM.findIndex((film) => film.id == id);
+
+  if (indexOfFilmFound < 0) {
+    const newFilm = { id, title, link, duration, budget };
+    LISTEDEFILM.push(newFilm);
+    return res.json(newFilm);
+  }
+
+  const filmPriorToChange = films[indexOfFilmFound];
+  const objectContainingPropertiesToBeUpdated = req.body;
+
+  const updatedFilm = {
+    ...filmPriorToChange,
+    ...objectContainingPropertiesToBeUpdated,
+  };
+
+  LISTEDEFILM[indexOfFilmFound] = updatedFilm;
+
+  return res.json(updatedFilm);
+});
+
 module.exports = router;
