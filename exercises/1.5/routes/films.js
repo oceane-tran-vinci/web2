@@ -25,8 +25,8 @@ const LISTEDEFILM = [
     },
 ];
 
+/*1.5) changer tout les messages d'erreur avec les status code approprié */
 /*1.3*/
-
 // Read all the films, filtered by minimum-duration if the query param exists
 router.get('/', (req, res, next) => {
     const minimumFilmDuration = req?.query
@@ -34,7 +34,7 @@ router.get('/', (req, res, next) => {
         : undefined;
 
     if(typeof minimumFilmDuration !== 'number' || minimumFilmDuration <= 0)
-        return res.sendStatus(400); //error code "Bad Request"
+        return res.sendStatus(400); //error code "Bad Request" : pour indiquer au client que la requête contient des paramètres non valides ou n'est pas complète
 
     if (!minimumFilmDuration) return res.json(LISTEDEFILM);
     
@@ -49,7 +49,7 @@ router.get('/', (req, res, next) => {
 //Read a film from its id in the menu
 router.get('/:id', (req, res, next) => {
     const indexOfFilmFound = LISTEDEFILM.findIndex((film) => film.id == req.params.id);
-    if (indexOfFilmFound < 0) return res.sendStatus(404); // error code "Not Found"
+    if (indexOfFilmFound < 0) return res.sendStatus(404); // error code "Not Found" : la ressource demandée n'existe pas, bien que l'URL semble valide.
     return res.json(LISTEDEFILM[indexOfFilmFound]);
 });
 
@@ -64,7 +64,7 @@ router.post('/', (req, res) => {
     : req.body.budget;
     const link = req?.body?.link?.trim()?.length !== 0 ? req.body.link : undefined;
     
-    if (!title || !duration || !budget || !link) return res.sendStatus(400); // error code "Bad Request"
+    if (!title || !duration || !budget || !link) return res.sendStatus(400); // error code "Bad Request" : pour indiquer au client que la requête contient des paramètres non valides ou n'est pas complète
     
     const lastItemIndex = LISTEDEFILM?.length !== 0 ? LISTEDEFILM.length - 1 : undefined; 
     const lastId = lastItemIndex !== undefined ? LISTEDEFILM[lastItemIndex]?.id : 0;
